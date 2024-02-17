@@ -1,11 +1,25 @@
 require("dotenv").config()
 const express = require("express");
+const cors = require("cors")
 const databaseConnection = require("./config/databaseConnection");
+
+// importing routes....
+const usersRoute = require("./routes/usersRoute")
+
+
 const app = express();
 const PORT = process.env.PORT || 9000
 
 // database connection
 databaseConnection()
+
+app.use(express.json())
+app.use(cors())
+
+
+// API's
+app.use("/api/v1/registration", usersRoute);
+app.use("/api/v1/authentication", usersRoute)
 
 // health API to check the server
 app.get("/health", (req, res) => {

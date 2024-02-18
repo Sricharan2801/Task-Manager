@@ -8,7 +8,7 @@ const userAuth = async (req, res) => {
 
         // handles if data passed is empty
         if (!email || !password) {
-            return res.status(409).json({
+            return res.status(400).json({
                 success: false,
                 errorMessage: "Bad Request"
             })
@@ -18,7 +18,7 @@ const userAuth = async (req, res) => {
 
         if (isUserExist) {
 
-            const comparePassword = bcrypt.compare(password, isUserExist.password);
+            const comparePassword = await bcrypt.compare(password, isUserExist.password);
 
             if (comparePassword) {
 

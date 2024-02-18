@@ -31,8 +31,11 @@ const userRegistartion = async (req, res) => {
             })
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10)
+        // hashing password
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
 
+        // creating new set of data
         const newUserData = new User({ name, email, password: hashedPassword, confirmPassword: hashedPassword })
 
         try {
@@ -43,26 +46,31 @@ const userRegistartion = async (req, res) => {
                 email: savedUser.email
             }
 
+            // Generating token for Autherization
             const secretKey = process.env.SECRET_KEY
-
             const token = jwt.sign(payLoad, secretKey, { expiresIn: "8h" })
 
+            // saving token in cookie 
             res.cookie("access_token", token).status(200).json({
                 success: true,
                 message: "User Registered Sucessfully",
-                token: token
+                token: token,
+                userName: newUserData.name
             })
 
         } catch (error) {
             res.status(500).json({
                 success: false,
-                errorMessage: "Internal Server Error"
+                errorMessage: "Error In User Registration"
             })
         }
 
 
     } catch (error) {
-
+        res.status(500).json({
+            success: false,
+            errorMessage: "Internal Server Error"
+        })
     }
 }
 

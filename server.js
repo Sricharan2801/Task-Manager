@@ -23,10 +23,12 @@ app.use(cors())
 // API's
 app.use("/api/v1/registration", usersRoute);
 app.use("/api/v1/authentication", usersRoute);
+app.use("/api/v1/updateUser",verifyToken,usersRoute);
 app.use("/api/v1/postTask", verifyToken, tasksRoute);
 app.use("/api/v1/getTask", verifyToken, tasksRoute);
 app.use("/api/v1/updateTask", verifyToken, tasksRoute);
 app.use("/api/v1/deleteTask", verifyToken, tasksRoute);
+
 
 // health API to check the server
 app.get("/health", (req, res) => {

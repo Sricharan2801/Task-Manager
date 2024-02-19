@@ -3,31 +3,37 @@ const bcrypt = require("bcrypt");
 
 const updateUserDetails = async (req, res) => {
     try {
-        const { name, password, confirmPassword } = req.body;
+        const { name, password, newPassword } = req.body;
         const userId = req.params.userId
 
-        // check for password & confirmPassword 
-        if (password != confirmPassword) {
-            return res.status(409).json({
-                success: false,
-                errorMessage: "password and confirm-password should be same"
-            })
-        }
-        
+        // getting olf password
+        const oldPassword = await User.findOne({ _id: userId })
+        console.log(oldPassword);
+
         // hashing password
         const saltRounds = 10;
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+
+        // comparing old password with provided password
+        const comparePassword = await bcrypt.compare(password, oldPassword.password)
 
         try {
-            await User.updateOne({ _id: userId }, {
-                $set: { name, password: hashedPassword, confirmPassword: hashedPassword }
-            });
 
-            res.status(200).json({
-                success: true,
-                message: "Updated Successfully"
-            })
+            if (comparePassword) {
+                await User.updateOne({ _id: userId }, {
+                    $set: { name, password: hashedPassword }
+                });
 
+                res.status(200).json({
+                    success: true,
+                    message: "Updated Successfully"
+                })
+            } else {
+                res.status(401).json({
+                    success: false,
+                    errorMessage: "old password is incorrect"
+                })
+            }
         } catch (error) {
             res.status(500).json({
                 success: false,

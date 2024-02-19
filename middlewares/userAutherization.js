@@ -15,7 +15,7 @@ const verifyToken = async (req, res, next) => {
 
         if (verifiedToken) {
             req.user = verifiedToken;
-            req.body.userId = verifiedToken.id;
+            req.body.id = verifiedToken.id;
             next()
         } else {
             res.status(401).josn({

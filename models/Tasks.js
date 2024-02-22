@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
-
-
+const {format} = require("date-fns")
 
 const taskSchema = new mongoose.Schema({
     title: {
@@ -14,6 +13,10 @@ const taskSchema = new mongoose.Schema({
     checkList: {
         type: Array,
         required: true
+    },
+    taskList: {
+        type: Array,
+        required:true
     },
     dueDate: {
         type: String,

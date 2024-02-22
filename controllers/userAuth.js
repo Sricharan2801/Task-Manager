@@ -35,7 +35,8 @@ const userAuth = async (req, res) => {
                     success: true,
                     message: "Login Successfull",
                     userName: isUserExist.name,
-                    token: token
+                    token: token,
+                    userId:isUserExist._id
                 })
             } else {
                 res.status(401).json({

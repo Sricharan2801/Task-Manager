@@ -2,16 +2,16 @@ const Task = require("../models/Tasks");
 
 const createTask = async (req, res) => {
     try {
-        const { title, selectPriority, checkList, dueDate } = req.body;
+        const { title, selectPriority, checkList,taskList, dueDate } = req.body;
 
-        if (!title || !selectPriority || !checkList || !dueDate) {
+        if (!title || !selectPriority || !taskList) {
             return res.status(409).json({
                 success: false,
                 errorMessage: "Bad Request"
             })
         }
 
-        const newTask = new Task({title,selectPriority,checkList,dueDate});
+        const newTask = new Task({title,selectPriority,checkList,taskList,dueDate});
 
         try {
             await newTask.save();

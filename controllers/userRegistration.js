@@ -48,7 +48,7 @@ const userRegistartion = async (req, res) => {
 
             // Generating token for Autherization
             const secretKey = process.env.SECRET_KEY
-            const token = jwt.sign(payLoad, secretKey, { expiresIn: "8h" })
+            const token = jwt.sign(payLoad, secretKey)
 
             // saving token in cookie 
             res.cookie("access_token", token).status(200).json({

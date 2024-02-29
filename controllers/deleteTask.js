@@ -3,9 +3,9 @@ const Task = require("../models/Tasks");
 const deleteTask = async (req, res) => {
     try {
         const taskId = req.params.taskId;
-
-        const deletedTask = await Task.findByIdAndDelete(taskId);
-
+        const userId = await req.header("userId")
+        console.log(taskId);
+        const deletedTask = await Task.findOneAndDelete({ _id: taskId, userId: userId });
         if (!deletedTask) return res.status(404).json({ success: false, errorMessage: "Task Not Found" });
 
         res.status(200).json({
@@ -16,9 +16,8 @@ const deleteTask = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             success: false,
-            errorMessage: "Internal Server Error"
+            errorMessage: "Internal Server Error",
         })
     }
 }
-
 module.exports = deleteTask;

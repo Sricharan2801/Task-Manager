@@ -13,24 +13,17 @@ const userAuth = async (req, res) => {
                 errorMessage: "Bad Request"
             })
         }
-
         const isUserExist = await User.findOne({ email });
 
         if (isUserExist) {
-
             const comparePassword = await bcrypt.compare(password, isUserExist.password);
-
             if (comparePassword) {
-
                 const payLoad = {
                     id: isUserExist._id,
                     email: isUserExist.email
                 }
-
                 const secretKey = process.env.SECRET_KEY
-
-                const token = jwt.sign(payLoad, secretKey, { expiresIn: "8h" })
-
+                const token = jwt.sign(payLoad, secretKey)
                 res.status(200).json({
                     success: true,
                     message: "Login Successfull",
@@ -44,7 +37,6 @@ const userAuth = async (req, res) => {
                     errorMessage: "Incorrect Password"
                 })
             }
-
         } else {
             res.status(404).json({
                 success: false,

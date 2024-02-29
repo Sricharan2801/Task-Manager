@@ -2,7 +2,8 @@ const Task = require("../models/Tasks");
 
 const createTask = async (req, res) => {
     try {
-        const { title, selectPriority, checkList,taskList, dueDate } = req.body;
+        const { title, selectPriority, checkList, taskList, dueDate } = req.body;
+        const userId = await req.header("userId")
 
         if (!title || !selectPriority || !taskList) {
             return res.status(409).json({
@@ -11,20 +12,20 @@ const createTask = async (req, res) => {
             })
         }
 
-        const newTask = new Task({title,selectPriority,checkList,taskList,dueDate});
+        const newTask = new Task({ title, selectPriority, checkList, taskList, dueDate,userId });
 
         try {
             await newTask.save();
             res.status(200).json({
-                success:true,
-                message:"Task Created Successfully!!"
+                success: true,
+                message: "Task Created Successfully!!",
             })
-            
+
         } catch (error) {
             res.status(500).json({
-                success:false,
-                errorMessage:"Error in creating job!!",
-                error:error
+                success: false,
+                errorMessage: "Error in creating Task!!",
+                error: error
             })
         }
 

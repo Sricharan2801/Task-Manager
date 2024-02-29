@@ -3,7 +3,8 @@ const Task = require("../models/Tasks");
 const updateTask = async (req, res) => {
     try {
         const taskId = req.params.taskId
-        const { title, selectPriority, checkList, taskList, dueDate } = req.body;
+        const { title, selectPriority, checkList, taskList, dueDate } = req.body
+        const userId = await req.header("userId")
 
         if (!title || !selectPriority || !taskList) {
             return res.status(400).json({
@@ -13,7 +14,7 @@ const updateTask = async (req, res) => {
         }
 
         try {
-            await Task.updateOne({ _id: taskId }, {
+            await Task.updateOne({ _id: taskId,userId:userId }, {
                 $set: { title, selectPriority, checkList,taskList,dueDate }
             })
 

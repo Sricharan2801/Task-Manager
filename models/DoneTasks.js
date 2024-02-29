@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { format } = require("date-fns")
 
 const taskSchema = new mongoose.Schema({
     title: {
@@ -16,7 +15,7 @@ const taskSchema = new mongoose.Schema({
     },
     taskList: {
         type: Array,
-        required: true
+        required:true
     },
     dueDate: {
         type: String,
@@ -24,14 +23,14 @@ const taskSchema = new mongoose.Schema({
     createdDate: {
         type: Date,
         default: Date.now
-    }, userId: {
+    },userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User' 
     }
 })
 
-const Task = mongoose.model("Task", taskSchema);
+const DoneTask = mongoose.model("DoneTask", taskSchema);
 
 
 
-module.exports = Task;
+module.exports = DoneTask;

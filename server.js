@@ -22,23 +22,23 @@ databaseConnection()
 
 app.use(express.json())
 app.use(cors({
-    origin: '', 
-    methods: ['GET', 'POST'],       
+    origin: 'task-manager-front-end-ten.vercel.app',
+    methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type'],
-    credentials: true               
-  }));
+    credentials: true
+}));
 
 // API's
 app.use("/api/v1/registration", usersRoute);
 app.use("/api/v1/authentication", usersRoute);
-app.use("/api/v1/updateUser",verifyToken,usersRoute);
+app.use("/api/v1/updateUser", verifyToken, usersRoute);
 app.use("/api/v1/postTask", verifyToken, tasksRoute);
 app.use("/api/v1/getTask", verifyToken, tasksRoute);
 app.use("/api/v1/updateTask", verifyToken, tasksRoute);
 app.use("/api/v1/deleteTask", verifyToken, tasksRoute);
-app.use("/api/v1/backlogTasks",verifyToken,backlogTasksRoute);
-app.use("/api/v1/inProgressTasks",verifyToken,inProgressTasksRoute);
-app.use("/api/v1/doneTasks",verifyToken,doneTasksRoute);
+app.use("/api/v1/backlogTasks", verifyToken, backlogTasksRoute);
+app.use("/api/v1/inProgressTasks", verifyToken, inProgressTasksRoute);
+app.use("/api/v1/doneTasks", verifyToken, doneTasksRoute);
 
 
 

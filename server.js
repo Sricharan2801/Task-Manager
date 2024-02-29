@@ -22,7 +22,7 @@ databaseConnection()
 
 app.use(express.json())
 app.use(cors({
-    origin: 'task-manager-front-end-ten.vercel.app',
+    origin: 'https://task-manager-front-end-ten.vercel.app',
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type'],
     credentials: true

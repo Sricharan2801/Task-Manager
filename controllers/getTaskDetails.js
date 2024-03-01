@@ -2,7 +2,7 @@ const Task = require("../models/Tasks");
 
 const getAllTasks = async(req,res)=>{
     try {
-        const userId =  req.headers["userId"]
+        const userId = req.body.id
         const taskDetails = await Task.find({userId:userId})
 
         if(taskDetails.length < 0){
@@ -30,7 +30,7 @@ const getAllTasksByFilter = async (req, res) => {
     try {
        
         const duration = req.query.duration || "";
-        const userId =  req.headers["userId"]
+        const userId = req.body.id
 
         if (!["today", "this week", "this month"].includes(duration)) {
             return res.status(400).json({
@@ -98,7 +98,7 @@ const getAllTasksByFilter = async (req, res) => {
 const getTaskById = async (req, res) => {
     try {
         const taskId = req.params.taskId;
-        const userId =  req.headers["userId"]
+        const userId = req.body.id
 
         if (!taskId) return res.status(400).json({ success: false, errorMessage: "Bad Request,Missing taskId" });
 

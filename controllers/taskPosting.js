@@ -13,12 +13,7 @@ const createTask = async (req, res) => {
             })
         }
 
-        if (!mongoose.Types.ObjectId.isValid(userId)) {
-            return res.status(400).json({
-                success: false,
-                errorMessage: "Invalid userId"
-            });
-        }
+       
 
         const newTask = new Task({ title, selectPriority, checkList, taskList, dueDate,userId });
 
@@ -40,7 +35,8 @@ const createTask = async (req, res) => {
 
     } catch (error) {
         res.status(500).json({
-            errorMessage: "Internal Server Error"
+            errorMessage: "Internal Server Error",
+            error:error
         })
     }
 }

@@ -4,9 +4,8 @@ const createTask = async (req, res) => {
     try {
         const { title, selectPriority, checkList, taskList, dueDate } = req.body;
         const userId = req.headers["userId"]
-        console.log(typeof(userId));
-        userId = mongoose.Types.ObjectId(userId)
-        
+        console.log(userId);
+       
         if (!title || !selectPriority || !taskList) {
             return res.status(409).json({
                 success: false,
@@ -33,6 +32,7 @@ const createTask = async (req, res) => {
 
 
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             errorMessage: "Internal Server Error",
             error:error

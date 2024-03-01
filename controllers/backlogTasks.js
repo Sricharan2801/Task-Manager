@@ -3,7 +3,7 @@ const BacklogTask = require("../models/BacklogTasks")
 const postBacklogTask = async (req, res) => {
     try {
         const { title, selectPriority, checkList, taskList, dueDate } = req.body;
-        const userId = await req.headers["userId"]
+        const userId =  req.headers["userId"]
 
         if (!title || !selectPriority || !taskList) {
             return res.status(409).json({
@@ -42,7 +42,7 @@ const postBacklogTask = async (req, res) => {
 const getAllTasks = async (req, res) => {
     try {
         const duration = req.query.duration || "";
-        const userId = await req.headers["userId"]
+        const userId =  req.headers["userId"]
       
         if (!["today", "this week", "this month"].includes(duration)) {
             return res.status(400).json({
@@ -106,7 +106,7 @@ const getAllTasks = async (req, res) => {
 const getBacklogTask = async (req, res) => {
     try {
         const taskId = req.params.taskId;
-        const userId = await req.headers["userId"]
+        const userId =  req.headers["userId"]
         if (!taskId) return res.status(400).json({ success: false, errorMessage: "Bad Request,Missing taskId." })
         const taskDetails = await BacklogTask.findById({_id:taskId,userId:userId});
 
@@ -129,7 +129,7 @@ const getBacklogTask = async (req, res) => {
 const deleteBacklogTask = async (req, res) => {
     try {
         const taskId = req.params.taskId;
-        const userId = await req.headers["userId"]
+        const userId =  req.headers["userId"]
         const deletedTask = await BacklogTask.findOneAndDelete({_id:taskId,userId:userId});
         
 
@@ -152,7 +152,7 @@ const editBacklogTask = async (req, res) => {
     try {
         const taskId = req.params.taskId
         const { title, selectPriority, checkList, taskList, dueDate } = req.body
-        const userId = await req.headers["userId"]
+        const userId =  req.headers["userId"]
 
 
         if (!title || !selectPriority || !taskList) {

@@ -3,7 +3,7 @@ const DoneTask = require("../models/DoneTasks")
 const postDoneTask = async (req, res) => {
     try {
         const { title, selectPriority, checkList, taskList, dueDate } = req.body;
-        const userId = await req.headers["userId"]
+        const userId =  req.headers["userId"]
 
         if (!title || !selectPriority || !taskList) {
             return res.status(409).json({
@@ -39,7 +39,7 @@ const postDoneTask = async (req, res) => {
 const getAllTasks = async(req,res)=>{
     try {
         const duration = req.query.duration || "";
-        const userId = await req.headers["userId"]
+        const userId =  req.headers["userId"]
         if (!["today", "this week", "this month"].includes(duration)) {
             return res.status(400).json({
                 success: false,
@@ -102,7 +102,7 @@ const getAllTasks = async(req,res)=>{
 const getDoneTask = async (req, res) => {
     try {
         const taskId = req.params.taskId;
-        const userId = await req.headers["userId"]
+        const userId =  req.headers["userId"]
 
         if (!taskId) return res.status(400).json({ success: false, errorMessage: "Bad Request,Missing taskId."})
         const taskDetails = await DoneTask.findById({_id:taskId,userId:userId});
@@ -126,7 +126,7 @@ const getDoneTask = async (req, res) => {
 const deleteDoneTask = async(req,res)=>{
     try {
         const taskId = req.params.taskId;
-        const userId = await req.headers["userId"]
+        const userId =  req.headers["userId"]
         const deletedTask = await DoneTask.findOneAndDelete({_id:taskId,userId:userId});
     
 
@@ -149,7 +149,7 @@ const editDoneTask = async(req,res)=>{
     try {
         const taskId = req.params.taskId
         const { title, selectPriority, checkList, taskList, dueDate } = req.body
-        const userId = await req.headers["userId"]
+        const userId =  req.headers["userId"]
 
 
         if (!title || !selectPriority || !taskList) {

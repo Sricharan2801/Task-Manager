@@ -24,7 +24,7 @@ app.use(express.json())
 const corsOptions = {
     origin: ['https://task-manager-front-end-eta.vercel.app'],
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'userid'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'userId'],
     credentials: true
 }
 app.use(cors(corsOptions));

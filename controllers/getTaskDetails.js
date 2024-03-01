@@ -1,7 +1,5 @@
 const Task = require("../models/Tasks");
 
-
-
 const getAllTasks = async(req,res)=>{
     try {
         const userId = await req.header["userId"]
@@ -37,7 +35,7 @@ const getAllTasksByFilter = async (req, res) => {
         if (!["today", "this week", "this month"].includes(duration)) {
             return res.status(400).json({
                 success: false,
-                errorMessage: "Invalid duration. Accepted values are 'today', 'this week', or 'this month'."
+                errorMessage: "Invalid duration"
             });
         }
 
@@ -90,7 +88,8 @@ const getAllTasksByFilter = async (req, res) => {
         console.log(error);
         return res.status(500).json({
             success: false,
-            errorMessage: "Internal Server Error"
+            errorMessage: "Internal Server Error",
+            duration:duration
         });
     }
 }

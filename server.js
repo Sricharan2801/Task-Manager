@@ -21,13 +21,10 @@ const PORT = process.env.PORT || 9000
 databaseConnection()
 
 app.use(express.json())
-const corsOptions = {
-    origin: ['http://localhost:5173'],
-    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization',"userId"],
-    credentials: true
-}
-app.use(cors(corsOptions));
+
+
+
+
 
 // API's
 app.use("/api/v1/registration", usersRoute);

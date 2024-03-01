@@ -3,7 +3,7 @@ const InProgressTask = require("../models/InProgressTasks")
 const postInProgressTask = async (req, res) => {
     try {
         const { title, selectPriority, checkList, taskList, dueDate } = req.body;
-        const userId = await req.header["userId"]
+        const userId = await req.headers["userId"]
 
         if (!title || !selectPriority || !taskList) {
             return res.status(409).json({
@@ -42,7 +42,7 @@ const postInProgressTask = async (req, res) => {
 const getAllTasks = async (req, res) => {
     try {
         const duration = req.query.duration || "";
-        const userId = await req.header["userId"]
+        const userId = await req.headers["userId"]
 
         if (!["today", "this week", "this month"].includes(duration)) {
             return res.status(400).json({
@@ -79,8 +79,6 @@ const getAllTasks = async (req, res) => {
             query.createdDate = { $gte: startingDate, $lte: endingDate };
         }
 
-
-
         const tasks = await InProgressTask.find({...query,userId:userId})
 
         if (tasks.length < 0) {
@@ -107,7 +105,7 @@ const getAllTasks = async (req, res) => {
 const getInProgressTask = async (req, res) => {
     try {
         const taskId = req.params.taskId;
-        const userId = await req.header["userId"]
+        const userId = await req.headers["userId"]
 
         if (!taskId) return res.status(400).json({ success: false, errorMessage: "Bad Request,Missing taskId." })
         const taskDetails = await InProgressTask.findById({_id:taskId,userId:userId});
@@ -130,7 +128,7 @@ const getInProgressTask = async (req, res) => {
 const deleteInprogressTask = async (req, res) => {
     try {
         const taskId = req.params.taskId;
-        const userId = await req.header["userId"]
+        const userId = await req.headers["userId"]
         const deletedTask = await InProgressTask.findOneAndDelete({_id:taskId,userId:userId});
 
         if (!deletedTask) return res.status(404).json({ success: false, errorMessage: "Task Not Found" });

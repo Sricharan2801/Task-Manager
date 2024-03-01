@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const updateUserDetails = async (req, res) => {
     try {
         const { name, password, newPassword } = req.body;
-        const userId = await req.header["userId"]
+        const userId = await req.headers["userId"]
 
         // getting olf password
         const oldPassword = await User.findOne({ _id: userId })

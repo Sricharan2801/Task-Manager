@@ -5,6 +5,7 @@ const createTask = async (req, res) => {
         const { title, selectPriority, checkList, taskList, dueDate } = req.body;
         const userId = req.headers["userId"]
         console.log(typeof(userId));
+        userId = mongoose.Types.ObjectId(userId)
         
         if (!title || !selectPriority || !taskList) {
             return res.status(409).json({
@@ -12,8 +13,6 @@ const createTask = async (req, res) => {
                 errorMessage: "Bad Request"
             })
         }
-
-       
 
         const newTask = new Task({ title, selectPriority, checkList, taskList, dueDate,userId });
 

@@ -3,7 +3,7 @@ const Task = require("../models/Tasks");
 const createTask = async (req, res) => {
     try {
         const { title, selectPriority, checkList, taskList, dueDate } = req.body;
-        const userId = req.headers["userId"]
+        const userId = await req.headers["userId"]
         console.log(userId);
        
         if (!title || !selectPriority || !taskList) {

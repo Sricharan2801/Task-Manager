@@ -4,7 +4,7 @@ const createTask = async (req, res) => {
     try {
         const { title, selectPriority, checkList, taskList, dueDate } = req.body;
         const userId = await req.headers["userId"]
-        console.log(userId);
+    
        
         if (!title || !selectPriority || !taskList) {
             return res.status(409).json({

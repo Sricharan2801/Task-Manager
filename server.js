@@ -22,10 +22,11 @@ databaseConnection()
 
 app.use(express.json())
 const corsOptions = {
-    origin: ['*'],
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    origin: ['http://localhost:5173'],
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-};
+    credentials: true
+}
 app.use(cors(corsOptions));
 
 

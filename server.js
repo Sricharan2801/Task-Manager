@@ -22,7 +22,7 @@ databaseConnection()
 
 app.use(express.json())
 const corsOptions = {
-    origin: ['http://task-manager-front-end-alpha.vercel.app'],
+    origin: ['http://task-manager-front-end-eta.vercel.app'],
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization', 'userid'],
     credentials: true

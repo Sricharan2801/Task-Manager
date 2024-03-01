@@ -4,7 +4,7 @@ const updateTask = async (req, res) => {
     try {
         const taskId = req.params.taskId
         const { title, selectPriority, checkList, taskList, dueDate } = req.body
-        const userId = await req.header("userId")
+        const userId = await req.header["userId"]
 
         if (!title || !selectPriority || !taskList) {
             return res.status(400).json({

@@ -3,7 +3,7 @@ const DoneTask = require("../models/DoneTasks")
 const postDoneTask = async (req, res) => {
     try {
         const { title, selectPriority, checkList, taskList, dueDate } = req.body;
-        const userId = await req.header("userId")
+        const userId = await req.header["userId"]
 
         if (!title || !selectPriority || !taskList) {
             return res.status(409).json({
@@ -38,8 +38,44 @@ const postDoneTask = async (req, res) => {
 }
 const getAllTasks = async(req,res)=>{
     try {
-        const userId = await req.header("userId")
-        const tasks = await DoneTask.find({userId:userId})
+        const duration = req.query.duration || "";
+        const userId = await req.header["userId"]
+        if (!["today", "this week", "this month"].includes(duration)) {
+            return res.status(400).json({
+                success: false,
+                errorMessage: "Invalid duration. Accepted values are 'today', 'this week', or 'this month'."
+            });
+        }
+        let query = {};
+        const currentDate = new Date();
+        let startingDate, endingDate
+
+        if (duration === "today") {
+            startingDate = new Date(currentDate)
+            startingDate.setHours(0, 0, 0, 0)
+            endingDate = new Date(currentDate)
+            endingDate.setHours(23, 59, 59, 999)
+        } else if (duration === "this week") {
+            startingDate = new Date(currentDate)
+            startingDate.setDate(startingDate.getDate() - 7)
+            startingDate.setHours(0, 0, 0, 0)
+
+            endingDate = new Date(currentDate)
+            endingDate.setHours(23, 59, 59, 999)
+        } else if (duration === "this month") {
+            startingDate = new Date(currentDate)
+            startingDate.setDate(startingDate.getDate() - 30)
+            startingDate.setHours(0, 0, 0, 0)
+
+            endingDate = new Date(currentDate)
+            endingDate.setHours(23, 59, 59, 999)
+        }
+
+        if (startingDate && endingDate) {
+            query.createdDate = { $gte: startingDate, $lte: endingDate };
+        }
+
+        const tasks = await DoneTask.find({...query,userId:userId})
        
 
         if(tasks.length < 0){
@@ -66,7 +102,7 @@ const getAllTasks = async(req,res)=>{
 const getDoneTask = async (req, res) => {
     try {
         const taskId = req.params.taskId;
-        const userId = await req.header("userId")
+        const userId = await req.header["userId"]
 
         if (!taskId) return res.status(400).json({ success: false, errorMessage: "Bad Request,Missing taskId."})
         const taskDetails = await DoneTask.findById({_id:taskId,userId:userId});
@@ -90,7 +126,7 @@ const getDoneTask = async (req, res) => {
 const deleteDoneTask = async(req,res)=>{
     try {
         const taskId = req.params.taskId;
-        const userId = await req.header("userId")
+        const userId = await req.header["userId"]
         const deletedTask = await DoneTask.findOneAndDelete({_id:taskId,userId:userId});
     
 
@@ -113,7 +149,7 @@ const editDoneTask = async(req,res)=>{
     try {
         const taskId = req.params.taskId
         const { title, selectPriority, checkList, taskList, dueDate } = req.body
-        const userId = await req.header("userId")
+        const userId = await req.header["userId"]
 
 
         if (!title || !selectPriority || !taskList) {

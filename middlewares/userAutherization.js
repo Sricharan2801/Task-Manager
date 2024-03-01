@@ -2,7 +2,8 @@ const jwt = require("jsonwebtoken");
 
 const verifyToken = async (req, res, next) => {
     try {
-        const token = await req.header("Authorization");
+        const token = await req.headers['authorization'];
+        console.log(token);
 
         // when token is empty
         if (!token) return res.status(401).json({

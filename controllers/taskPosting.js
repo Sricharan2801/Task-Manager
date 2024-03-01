@@ -4,12 +4,20 @@ const createTask = async (req, res) => {
     try {
         const { title, selectPriority, checkList, taskList, dueDate } = req.body;
         const userId = req.headers["userId"]
+        console.log(typeof(userId));
         
         if (!title || !selectPriority || !taskList) {
             return res.status(409).json({
                 success: false,
                 errorMessage: "Bad Request"
             })
+        }
+
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return res.status(400).json({
+                success: false,
+                errorMessage: "Invalid userId"
+            });
         }
 
         const newTask = new Task({ title, selectPriority, checkList, taskList, dueDate,userId });

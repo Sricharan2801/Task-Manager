@@ -21,12 +21,13 @@ const PORT = process.env.PORT || 9000
 databaseConnection()
 
 app.use(express.json())
-app.use(cors({
-    origin: 'https://task-manager-front-end-ten.vercel.app',
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type'],
-    credentials: true
-}));
+const corsOptions = {
+    origin: ['*'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+};
+app.use(cors(corsOptions));
+
 
 // API's
 app.use("/api/v1/registration", usersRoute);
